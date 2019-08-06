@@ -33,3 +33,7 @@ export function computeResult(target: string, guess: string): Result {
 
   return { up: resUp, down: resDown };
 }
+
+export function randomPassword(): string {
+  return "" + Math.floor(Math.random() * Math.pow(10, 5));
+}

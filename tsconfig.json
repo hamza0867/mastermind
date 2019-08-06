@@ -11,7 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env", "jest", "vuetify"],
+    "types": ["webpack-env", "jest"],
     "paths": {
       "@/*": ["src/*"]
     },
@@ -22,7 +22,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx", "tests/unit/store/ui.store.spec.js"
+    "tests/**/*.tsx",
+    "tests/unit/store/ui.store.spec.ts"
   ],
   "exclude": ["node_modules"]
 }

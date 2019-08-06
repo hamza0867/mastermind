@@ -14,14 +14,12 @@
       </v-layout>
       <v-layout row justify-center>
         <v-flex sm6>
-          <v-layout column align-center>
-            <v-text-field
-              style="width: 100%"
-              append-icon="mdi-check-outline"
-              :filled="filled"
-              :outlined="outlined"
-            />
-          </v-layout>
+          <v-text-field
+            style="width: 100%"
+            append-icon="mdi-check-outline"
+            :filled="filled"
+            :outlined="outlined"
+          />
         </v-flex>
       </v-layout>
     </v-layout>
@@ -32,16 +30,20 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { mapState, mapGetters } from "vuex";
+import { Attempt } from "../models/shared";
 
 @Component({
   computed: {
     ...mapState(["mainPlayer", "secondaryPlayer"]),
-    ...mapGetters("ui", ["outlined", "filled"])
+    ...mapGetters("ui", ["outlined", "filled"]),
+    ...mapState("vsCpu", ["attemtps", "over"])
   }
 })
 export default class VsCpu extends Vue {
   mainPlayer!: string;
   outlined!: boolean;
   filled!: boolean;
+  attempts!: Attempt[];
+  over!: boolean;
 }
 </script>

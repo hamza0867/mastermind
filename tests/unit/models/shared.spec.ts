@@ -1,6 +1,6 @@
-import { computeResult } from "@/models/shared";
+import { computeResult, randomPassword } from "@/models/shared";
 
-describe("should compute result correctly", () => {
+describe("compute result", () => {
   it("should return 5/5 when guess matches target", () => {
     expect(computeResult("12345", "12345")).toEqual({ up: 5, down: 5 });
   });
@@ -15,5 +15,11 @@ describe("should compute result correctly", () => {
   });
   it("should return 3/0 when guess is 12345 and target is 30102", () => {
     expect(computeResult("12345", "30102")).toEqual({ up: 3, down: 0 });
+  });
+});
+
+describe("generate random password ", () => {
+  it("should generate a random password of length 5", () => {
+    expect(randomPassword().length).toEqual(5);
   });
 });

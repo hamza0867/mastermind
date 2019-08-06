@@ -28,7 +28,7 @@ const getters: GetterTree<State, RootState> = {
   outlined: state => state.dark
 };
 
-const uiModule: Module<State, any> = {
+const uiModule: Module<State, RootState> = {
   namespaced: true,
   state,
   mutations,
