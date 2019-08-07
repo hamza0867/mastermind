@@ -26,10 +26,10 @@ const mutations: MutationTree<State> = {
     state.over = over;
   },
   nextAttempt(state, payload: Attempt) {
-    state.attempts.concat(payload);
-  },
-  finishGame(state) {
-    state.over = true;
+    state.attempts.push(payload);
+    if (payload.result.down === 5) {
+      state.over = true;
+    }
   }
 };
 
@@ -44,9 +44,6 @@ const actions: ActionTree<State, RootState> = {
       result: computeResult(context.state.target, guess)
     };
     context.commit("nextAttempt", attemp);
-    if (attemp.result === { up: 5, down: 5 }) {
-      context.commit("finishGame");
-    }
   }
 };
 

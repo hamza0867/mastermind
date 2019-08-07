@@ -35,5 +35,15 @@ export function computeResult(target: string, guess: string): Result {
 }
 
 export function randomPassword(): string {
-  return "" + Math.floor(Math.random() * Math.pow(10, 5));
+  let result = "" + Math.floor(Math.random() * Math.pow(10, 5));
+  while (result.length < 5) {
+    result = "0" + result;
+  }
+  return result;
 }
+
+const passwordRules = [
+  (v: string) => v.length === 5 || "the password must be 5 digits long"
+];
+
+export { passwordRules };
