@@ -3,13 +3,7 @@
     <v-layout justify-center wrap mt-4 column>
       <v-layout row justify-center shrink>
         <v-flex sm6 xs10>
-          <v-text-field
-            label="Player"
-            :filled="filled"
-            :outlined="outlined"
-            :value="mainPlayer"
-            readonly
-          />
+          <v-text-field label="Player" outlined :value="mainPlayer" readonly />
         </v-flex>
         <v-fab-transition>
           <v-btn
@@ -49,12 +43,7 @@
         row
       >
         <v-flex xs10 sm6>
-          <v-text-field
-            :filled="filled"
-            :outlined="outlined"
-            :value="attempt.guess"
-            readonly
-          >
+          <v-text-field outlined :value="attempt.guess" readonly>
             <template v-slot:append>
               {{ attempt.result.up }} / {{ attempt.result.down }}
             </template>
@@ -70,8 +59,7 @@
             prepend-inner-icon="mdi-numeric"
             placeholder="Your guess here ..."
             :append-icon="validNextGuess ? 'mdi-check-outline' : null"
-            :filled="filled"
-            :outlined="outlined"
+            outlined="outlined"
             v-model="nextGuess"
             v-mask="'#####'"
             :rules="nextGuessRules"

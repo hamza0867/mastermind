@@ -7,8 +7,7 @@
             <v-flex sm6>
               <v-text-field
                 label="Player"
-                :filled="filled"
-                :outlined="outlined"
+                outlined="outlined"
                 :rules="nameRules"
                 v-model="mainPlayer"
               />
@@ -37,6 +36,7 @@ import { Actions } from "../store";
 @Component({
   computed: {
     ...mapState("ui", ["dark"]),
+    ...mapState(["mainPlayer"]),
     ...mapGetters("ui", ["filled", "outlined"])
   },
   methods: {
@@ -44,7 +44,7 @@ import { Actions } from "../store";
   }
 })
 export default class Home extends Vue {
-  mainPlayer = "";
+  mainPlayer!: string;
   dark!: boolean;
   filled!: boolean;
   outlined!: boolean;
