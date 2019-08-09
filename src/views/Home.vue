@@ -9,7 +9,7 @@
                 label="Player"
                 outlined="outlined"
                 :rules="nameRules"
-                v-model="mainPlayer"
+                v-model="dirtyMainPlayer"
               />
             </v-flex>
           </v-layout>
@@ -44,6 +44,7 @@ import { Actions } from "../store";
 })
 export default class Home extends Vue {
   mainPlayer!: string;
+  dirtyMainPlayer = "";
   dark!: boolean;
   updateMainPlayer!: Function;
   nameRules = [
@@ -51,10 +52,17 @@ export default class Home extends Vue {
     (name: string) =>
       (!!name && name.length >= 3) || "Player name must have at least 3 letters"
   ];
+
   valid = false;
 
+  mounted() {
+    if (this.mainPlayer) {
+      this.dirtyMainPlayer = this.mainPlayer;
+    }
+  }
+
   playVsCPU() {
-    this.updateMainPlayer(this.mainPlayer);
+    this.updateMainPlayer(this.dirtyMainPlayer);
     this.$router.push({ name: "VsCpu" });
   }
 }
