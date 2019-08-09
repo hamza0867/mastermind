@@ -2,6 +2,7 @@
 node_modules
 /dist
 coverage
+vue.config.js
 
 /tests/e2e/videos/
 /tests/e2e/screenshots/
