@@ -2,6 +2,7 @@
 node_modules
 /dist
 coverage
+deploy.sh
 vue.config.js
 
 /tests/e2e/videos/

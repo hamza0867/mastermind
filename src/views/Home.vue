@@ -36,8 +36,7 @@ import { Actions } from "../store";
 @Component({
   computed: {
     ...mapState("ui", ["dark"]),
-    ...mapState(["mainPlayer"]),
-    ...mapGetters("ui", ["filled", "outlined"])
+    ...mapState(["mainPlayer"])
   },
   methods: {
     ...mapActions([Actions.updateMainPlayer])
@@ -46,8 +45,6 @@ import { Actions } from "../store";
 export default class Home extends Vue {
   mainPlayer!: string;
   dark!: boolean;
-  filled!: boolean;
-  outlined!: boolean;
   updateMainPlayer!: Function;
   nameRules = [
     (name: string) => !!name || "Player name is required",

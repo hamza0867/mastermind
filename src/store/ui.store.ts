@@ -23,10 +23,7 @@ const actions: ActionTree<State, RootState> = {
   }
 };
 
-const getters: GetterTree<State, RootState> = {
-  filled: state => !state.dark,
-  outlined: state => state.dark
-};
+const getters: GetterTree<State, RootState> = {};
 
 const uiModule: Module<State, RootState> = {
   namespaced: true,

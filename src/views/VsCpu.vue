@@ -83,8 +83,7 @@ const { mask } = vueTheMask;
 
 @Component({
   computed: {
-    ...mapState(["mainPlayer", "secondaryPlayer"]),
-    ...mapGetters("ui", ["outlined", "filled"]),
+    ...mapState(["mainPlayer"]),
     ...mapState("vsCpu", ["attempts", "over"])
   },
   methods: {
@@ -96,8 +95,6 @@ const { mask } = vueTheMask;
 })
 export default class VsCpu extends Vue {
   mainPlayer!: string;
-  outlined!: boolean;
-  filled!: boolean;
   attempts!: Attempt[];
   over!: boolean;
   startGame!: Function;
