@@ -15,5 +15,4 @@ export default class HelloWorld extends Vue {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

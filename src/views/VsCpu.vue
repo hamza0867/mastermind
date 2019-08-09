@@ -70,7 +70,9 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { mapState, mapGetters, mapActions } from "vuex";
 import { Attempt, passwordRules } from "../models/shared";
-import { mask } from "vue-the-mask";
+// import { mask } from "vue-the-mask";
+const vueTheMask = require("vue-the-mask");
+const { mask } = vueTheMask;
 
 @Component({
   computed: {

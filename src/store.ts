@@ -7,7 +7,7 @@ import Vuex, {
   GetterTree
 } from "vuex";
 import uiModule from "./store/ui.store";
-import vsCpuModule from './store/vsCpu.store';
+import vsCpuModule from "./store/vsCpu.store";
 
 Vue.use(Vuex);
 
