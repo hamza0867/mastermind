@@ -1,5 +1,5 @@
 import { Attempt, randomPassword, computeResult } from "@/models/shared";
-import { MutationTree, Action, ActionTree, Module } from "vuex";
+import { MutationTree, ActionTree, Module } from "vuex";
 import { RootState } from "@/store";
 
 type State = {
@@ -25,6 +25,9 @@ const mutations: MutationTree<State> = {
     state.target = target;
     state.over = over;
   },
+  resetGame(state) {
+    state.attempts = [];
+  },
   nextAttempt(state, payload: Attempt) {
     state.attempts.push(payload);
     if (payload.result.down === 5) {
@@ -36,6 +39,9 @@ const mutations: MutationTree<State> = {
 const actions: ActionTree<State, RootState> = {
   startGame(context) {
     context.commit("startGame");
+  },
+  resetGame(context) {
+    context.commit("resetGame");
   },
   nextAttempt(context, guess: string) {
     const attemp: Attempt = {

@@ -11,17 +11,34 @@
             readonly
           />
         </v-flex>
-        <v-btn
-          v-if="over"
-          fixed
-          bottom
-          right
-          fab
-          color="error"
-          @click="startGame"
-        >
-          <v-icon dark> mdi-reload </v-icon>
-        </v-btn>
+        <v-fab-transition>
+          <v-btn
+            v-show="over"
+            fixed
+            bottom
+            right
+            fab
+            color="error"
+            @click="startGame"
+            class="myFab"
+          >
+            <v-icon dark> mdi-reload </v-icon>
+          </v-btn>
+        </v-fab-transition>
+        <v-fab-transition>
+          <v-btn
+            id="reset-btn"
+            v-show="!over"
+            fixed
+            bottom
+            right
+            fab
+            color="primary"
+            @click="resetGame"
+          >
+            <v-icon dark> mdi-cancel </v-icon>
+          </v-btn>
+        </v-fab-transition>
       </v-layout>
       <v-layout
         v-for="(attempt, index) in attempts"
@@ -50,6 +67,8 @@
             v-if="!over"
             ref="nextGuessInputElement"
             style="width: 100%"
+            prepend-inner-icon="mdi-numeric"
+            placeholder="Your guess here ..."
             :append-icon="validNextGuess ? 'mdi-check-outline' : null"
             :filled="filled"
             :outlined="outlined"
@@ -81,7 +100,7 @@ const { mask } = vueTheMask;
     ...mapState("vsCpu", ["attempts", "over"])
   },
   methods: {
-    ...mapActions("vsCpu", ["startGame", "nextAttempt"])
+    ...mapActions("vsCpu", ["startGame", "nextAttempt", "resetGame"])
   },
   directives: {
     mask
@@ -95,6 +114,7 @@ export default class VsCpu extends Vue {
   over!: boolean;
   startGame!: Function;
   nextAttempt!: Function;
+  resetGame!: Function;
 
   nextGuess = "";
   nextGuessRules = passwordRules;
