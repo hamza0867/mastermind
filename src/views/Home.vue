@@ -35,7 +35,6 @@ import { Actions } from "../store";
 
 @Component({
   computed: {
-    ...mapState("ui", ["dark"]),
     ...mapState(["mainPlayer"])
   },
   methods: {
@@ -45,7 +44,6 @@ import { Actions } from "../store";
 export default class Home extends Vue {
   mainPlayer!: string;
   dirtyMainPlayer = "";
-  dark!: boolean;
   updateMainPlayer!: Function;
   nameRules = [
     (name: string) => !!name || "Player name is required",
