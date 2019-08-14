@@ -1,10 +1,12 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
+import Vuetify, { VTextField } from "vuetify/lib";
+import Vue from "vue";
+import vuetify from "@/plugins/vuetify";
+import { shallowMount, mount } from "@vue/test-utils";
 import Vuex, { Store } from "vuex";
 import Home from "@/views/Home.vue";
 import { Actions } from "@/store";
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
+Vue.use(Vuetify);
 
 describe("Home.vue", () => {
   let actions;
@@ -25,8 +27,8 @@ describe("Home.vue", () => {
   });
 
   it("should show the mainPlayer in inupt field", () => {
-    const HomeComp = shallowMount(Home, { store, localVue });
-    const inuptField = HomeComp.find("input");
-    expect(inuptField.element.nodeValue).toEqual(state.mainPlayer);
+    const HomeComp = shallowMount(Home, { store });
+    const textField = HomeComp.find("v-text-field");
+    expect(textField.is(VTextField)).toBe(true);
   });
 });
