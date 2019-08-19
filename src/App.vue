@@ -25,7 +25,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Mastermind</v-toolbar-title>
       <v-spacer />
-      <v-btn icon @click="toggleLight()">
+      <v-btn data-test="toggleLighButton" icon @click="toggleLight()">
         <v-icon>{{ lightIcon }}</v-icon>
       </v-btn>
     </v-app-bar>

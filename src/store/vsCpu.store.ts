@@ -2,7 +2,7 @@ import { Attempt, randomPassword, computeResult } from "@/models/shared";
 import { MutationTree, ActionTree, Module } from "vuex";
 import { RootState } from "@/store";
 
-type State = {
+export type State = {
   over: boolean;
   target: string;
   attempts: Attempt[];
@@ -59,5 +59,11 @@ const vsCpuModule: Module<State, RootState> = {
   actions,
   state
 };
+
+export enum Actions {
+  startGame = "startGame",
+  resetGame = "resetGame",
+  nextAttempt = "nextAttempt"
+}
 
 export default vsCpuModule;

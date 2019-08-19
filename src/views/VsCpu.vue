@@ -14,14 +14,12 @@
             fab
             color="error"
             @click="startGame"
-            class="myFab"
           >
             <v-icon dark> mdi-reload </v-icon>
           </v-btn>
         </v-fab-transition>
         <v-fab-transition>
           <v-btn
-            id="reset-btn"
             v-show="!over"
             fixed
             bottom
@@ -64,7 +62,7 @@
             v-mask="'#####'"
             :rules="nextGuessRules"
             autofocus
-            @click:append="onClickAppend"
+            @click:append="checkGuess"
           />
         </v-flex>
       </v-layout>
@@ -77,9 +75,9 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { mapState, mapGetters, mapActions } from "vuex";
 import { Attempt, passwordRules } from "../models/shared";
-// import { mask } from "vue-the-mask";
-const vueTheMask = require("vue-the-mask");
-const { mask } = vueTheMask;
+import { Actions } from "@/store/vsCpu.store";
+const vMask = require("v-mask");
+const { VueMaskDirective } = vMask;
 
 @Component({
   computed: {
@@ -87,10 +85,14 @@ const { mask } = vueTheMask;
     ...mapState("vsCpu", ["attempts", "over"])
   },
   methods: {
-    ...mapActions("vsCpu", ["startGame", "nextAttempt", "resetGame"])
+    ...mapActions("vsCpu", [
+      Actions.startGame,
+      Actions.resetGame,
+      Actions.nextAttempt
+    ])
   },
   directives: {
-    mask
+    mask: VueMaskDirective
   }
 })
 export default class VsCpu extends Vue {
@@ -108,7 +110,7 @@ export default class VsCpu extends Vue {
     return this.nextGuess.length === 5;
   }
 
-  onClickAppend() {
+  checkGuess() {
     this.nextAttempt(this.nextGuess);
     this.nextGuess = "";
   }
@@ -116,7 +118,5 @@ export default class VsCpu extends Vue {
   mounted() {
     this.startGame();
   }
-
-  updated() {}
 }
 </script>

@@ -18,6 +18,7 @@
             color="primary"
             :disabled="!valid"
             @click.prevent="playVsCPU"
+            data-test="playButton"
           >
             Play vs CPU
           </v-btn>

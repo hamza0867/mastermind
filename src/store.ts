@@ -1,11 +1,5 @@
 import Vue from "vue";
-import Vuex, {
-  Store,
-  StoreOptions,
-  MutationTree,
-  ActionTree,
-  GetterTree
-} from "vuex";
+import Vuex, { Store, StoreOptions, MutationTree, ActionTree } from "vuex";
 import uiModule from "./store/ui.store";
 import vsCpuModule from "./store/vsCpu.store";
 
@@ -16,7 +10,7 @@ export type RootState = {
   secondaryPlayer: string;
 };
 
-const mutations: MutationTree<RootState> = {
+export const mutations: MutationTree<RootState> = {
   updateMainPlayer(state, name) {
     state.mainPlayer = name;
   },
@@ -25,12 +19,12 @@ const mutations: MutationTree<RootState> = {
   }
 };
 
-const actions: ActionTree<RootState, RootState> = {
+export const actions: ActionTree<RootState, RootState> = {
   updateMainPlayer(context, name) {
     context.commit("updateMainPlayer", name);
   },
   updateSecondaryPlayer(context, name) {
-    context.commit("updateMainPlayer", name);
+    context.commit("updateSecondaryPlayer", name);
   }
 };
 
