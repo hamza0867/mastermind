@@ -80,7 +80,8 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,vue,ts}",
-      "!**/node_modules/**"
+      "!**/node_modules/**",
+      "!src/main.ts"
     ],
     "coverageReporters": [
       "html"

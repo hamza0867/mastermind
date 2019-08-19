@@ -18,7 +18,7 @@ function newGameState(): State {
 
 const state: State = newGameState();
 
-const mutations: MutationTree<State> = {
+export const mutations: MutationTree<State> = {
   startGame(state) {
     const { attempts, target, over } = newGameState();
     state.attempts = attempts;
@@ -36,7 +36,7 @@ const mutations: MutationTree<State> = {
   }
 };
 
-const actions: ActionTree<State, RootState> = {
+export const actions: ActionTree<State, RootState> = {
   startGame(context) {
     context.commit("startGame");
   },

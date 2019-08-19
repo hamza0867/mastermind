@@ -53,7 +53,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { mapState, mapMutations, mapActions } from "vuex";
 import store from "./store";
-import { Mutations } from "./store/ui.store";
+import { Actions } from "./store/ui.store";
 
 @Component({
   computed: {
@@ -61,7 +61,7 @@ import { Mutations } from "./store/ui.store";
   },
   methods: {
     ...mapActions({
-      toggleLight: "ui/" + Mutations.toggleLight
+      toggleLight: "ui/" + Actions.toggleLight
     })
   }
 })
