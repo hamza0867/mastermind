@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app clipped width="13vw">
+    <v-navigation-drawer v-model="drawer" app clipped :width="width">
       <v-list dense>
         <v-list-item link :to="{ name: 'home' }">
           <v-list-item-action>
@@ -34,16 +34,16 @@
       <router-view />
     </v-content>
     <v-footer color="indigo" app>
-      <span class="white--text"
-        >By
+      <span class="white--text">
+        By
         <a
           href="https://github.com/hamza0867"
           target="_blank"
           style="color: white"
           >@hamza0867</a
         >
-        &copy; 2019</span
-      >
+        &copy; 2019
+      </span>
     </v-footer>
   </v-app>
 </template>
@@ -76,6 +76,10 @@ export default class App extends Vue {
 
   get lightIcon() {
     return this.dark ? "mdi-lightbulb-on" : "mdi-lightbulb-off";
+  }
+
+  get width() {
+    return this.$vuetify.breakpoint.smAndDown ? undefined : "13vw";
   }
 }
 </script>
