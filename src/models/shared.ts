@@ -42,7 +42,12 @@ export function randomPassword(): string {
 }
 
 const passwordRules = [
-  (v: string) => v.length === 5 || "the password must be 5 digits long"
+  (v: string) => {
+    return (
+      (v.length === 5 && !Number.isNaN(Number.parseInt(v))) ||
+      "the password must be 5 digits long"
+    );
+  }
 ];
 
 export { passwordRules };

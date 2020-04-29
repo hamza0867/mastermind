@@ -47,8 +47,7 @@ import { mapState, mapActions, mapMutations } from "vuex";
     ...mapState(["mainPlayer"])
   },
   methods: {
-    ...mapActions("vsFriend", ["sendReady"]),
-    ...mapMutations("vsFriend", ["loadGame"]),
+    ...mapActions("vsFriend", ["sendReady", "loadGame"]),
     ...mapMutations(["updateSecondaryPlayer"])
   },
   directives: {
@@ -90,11 +89,10 @@ export default class VsFriend extends Vue {
     })
       .then(res => res.json())
       .then(res => {
-        // eslint-disable-next-line
-        console.log(res);
         this.socket = io.connect("http://localhost:4000/" + res.number);
         this.loadGame(this.socket);
         this.updateSecondaryPlayer(res.user_1);
+        this.$router.push("/vs-friend/" + res.number);
       });
   }
 

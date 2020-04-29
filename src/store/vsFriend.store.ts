@@ -1,4 +1,4 @@
-import { Attempt, computeResult } from "@/models/shared";
+import { Attempt } from "@/models/shared";
 import { MutationTree, ActionTree, Module } from "vuex";
 import { RootState } from "@/store";
 import io from "socket.io-client";
@@ -41,7 +41,7 @@ function newGameState(roomSocket: SocketIOClient.Socket): GameState {
 const state: State = { gameState: { type: "NOT_STARTED" } };
 
 export const mutations: MutationTree<State> = {
-  loadGame(state, roomSocket) {
+  loadGame(state, roomSocket: SocketIOClient.Socket) {
     state.gameState = newGameState(roomSocket);
   },
   registerMyPwd(state, myPwd) {
@@ -90,9 +90,17 @@ export const mutations: MutationTree<State> = {
 };
 
 export const actions: ActionTree<State, RootState> = {
-  sendReady(context, myPwd) {
+  loadGame(ctx, roomSocket: SocketIOClient.Socket) {
+    roomSocket.on("ready", (data: any) => {
+      // eslint-disable-next-line
+      console.log(data);
+      ctx.commit("setOtherReady", true);
+      ctx.commit("updateSecondaryPlayer", data.sender, { root: true });
+    });
+    ctx.commit("loadGame", roomSocket);
+  },
+  sendReady(context) {
     if (context.state.gameState.type === "LOADING") {
-      context.commit("registerMyPwd", myPwd);
       context.state.gameState.roomSocket.emit("ready", {
         sender: context.rootState.mainPlayer
       });
