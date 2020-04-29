@@ -1,28 +1,28 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app clipped :width="width">
-      <v-list dense>
-        <v-list-item link :to="{ name: 'home' }">
-          <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-account-group</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Friends</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <!--<v-navigation-drawer v-model="drawer" app clipped :width="width">-->
+    <!--<v-list dense>-->
+    <!--<v-list-item link :to="{ name: 'home' }">-->
+    <!--<v-list-item-action>-->
+    <!--<v-icon>mdi-home</v-icon>-->
+    <!--</v-list-item-action>-->
+    <!--<v-list-item-content>-->
+    <!--<v-list-item-title>Home</v-list-item-title>-->
+    <!--</v-list-item-content>-->
+    <!--</v-list-item>-->
+    <!--<v-list-item link>-->
+    <!--<v-list-item-action>-->
+    <!--<v-icon>mdi-account-group</v-icon>-->
+    <!--</v-list-item-action>-->
+    <!--<v-list-item-content>-->
+    <!--<v-list-item-title>Friends</v-list-item-title>-->
+    <!--</v-list-item-content>-->
+    <!--</v-list-item>-->
+    <!--</v-list>-->
+    <!--</v-navigation-drawer>-->
 
     <v-app-bar app color="indigo" dark clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <!--<v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>-->
       <v-toolbar-title>Mastermind</v-toolbar-title>
       <v-spacer />
       <v-btn data-test="toggleLighButton" icon @click="toggleLight()">
@@ -42,7 +42,7 @@
           style="color: white"
           >@hamza0867</a
         >
-        &copy; 2019
+        &copy; 2020
       </span>
     </v-footer>
   </v-app>
@@ -70,7 +70,7 @@ export default class App extends Vue {
     super();
   }
 
-  drawer: boolean | null = null;
+  // drawer: boolean | null = null;
   dark!: boolean;
   toggleLight!: Function;
 
@@ -78,8 +78,8 @@ export default class App extends Vue {
     return this.dark ? "mdi-lightbulb-on" : "mdi-lightbulb-off";
   }
 
-  get width() {
-    return this.$vuetify.breakpoint.smAndDown ? undefined : "13vw";
-  }
+  // get width() {
+  //   return this.$vuetify.breakpoint.smAndDown ? undefined : "13vw";
+  // }
 }
 </script>

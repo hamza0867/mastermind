@@ -32,7 +32,6 @@ describe("Mutations", () => {
     it("should push the received attempt", () => {
       const attempt: Attempt = {
         guess: "12345",
-        target: "72369",
         result: {
           up: 2,
           down: 2
@@ -45,7 +44,6 @@ describe("Mutations", () => {
     it("should end the game when the guess matches the target", () => {
       const attempt: Attempt = {
         guess: "12345",
-        target: "12345",
         result: {
           up: 5,
           down: 5
@@ -58,7 +56,6 @@ describe("Mutations", () => {
     it("should not end the game when the guess does not matches the target", () => {
       const attempt: Attempt = {
         guess: "12345",
-        target: "12344",
         result: {
           up: 4,
           down: 4

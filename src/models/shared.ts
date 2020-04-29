@@ -5,7 +5,6 @@ export type Result = {
 
 export type Attempt = {
   guess: string;
-  target: string;
   result: Result;
 };
 

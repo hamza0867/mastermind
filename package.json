@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --host 0.0.0.0",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "socket.io-client": "^2.3.0",
     "v-mask": "^2.0.2",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
@@ -20,7 +21,9 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@types/graphql": "^14.5.0",
     "@types/jest": "^23.1.4",
+    "@types/socket.io-client": "^1.4.32",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-e2e-cypress": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",

@@ -13,15 +13,25 @@
               />
             </v-flex>
           </v-layout>
-          <v-btn
-            outlined
-            color="primary"
-            :disabled="!valid"
-            @click.prevent="playVsCPU"
-            data-test="playButton"
-          >
-            Play vs CPU
-          </v-btn>
+          <v-layout row justify-space-between align-center style="width: 100%">
+            <v-flex xs12 sm2 class="mx-auto justify-space-between d-flex">
+              <v-btn
+                outlined
+                color="primary"
+                :disabled="!valid"
+                @click.prevent="playVsCPU"
+                data-test="playButton"
+                >Play vs CPU</v-btn
+              >
+              <v-btn
+                outlined
+                color="primary"
+                :disabled="!valid"
+                @click.prevent="playVsFriend"
+                >Play vs Friend</v-btn
+              >
+            </v-flex>
+          </v-layout>
         </v-layout>
       </v-container>
     </v-form>
@@ -62,7 +72,12 @@ export default class Home extends Vue {
 
   playVsCPU() {
     this.updateMainPlayer(this.dirtyMainPlayer);
-    this.$router.push({ name: "VsCpu" });
+    this.$router.push({ name: "vs-cpu" });
+  }
+
+  playVsFriend() {
+    this.updateMainPlayer(this.dirtyMainPlayer);
+    this.$router.push({ name: "vs-friend" });
   }
 }
 </script>

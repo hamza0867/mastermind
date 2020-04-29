@@ -45,7 +45,6 @@ export const actions: ActionTree<State, RootState> = {
   },
   nextAttempt(context, guess: string) {
     const attemp: Attempt = {
-      target: context.state.target,
       guess: guess,
       result: computeResult(context.state.target, guess)
     };

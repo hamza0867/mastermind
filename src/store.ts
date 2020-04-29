@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex, { Store, StoreOptions, MutationTree, ActionTree } from "vuex";
 import uiModule from "./store/ui.store";
 import vsCpuModule from "./store/vsCpu.store";
+import vsFriendModule from "./store/vsFriend.store";
 
 Vue.use(Vuex);
 
@@ -36,7 +37,8 @@ export enum Actions {
 const stopreOptions: StoreOptions<RootState> = {
   modules: {
     ui: uiModule,
-    vsCpu: vsCpuModule
+    vsCpu: vsCpuModule,
+    vsFriend: vsFriendModule
   },
   state: {
     mainPlayer: "",
