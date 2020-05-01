@@ -19,6 +19,7 @@ export type GameState =
   | {
       type: "LOADING";
       myPwd: string;
+      meReady: boolean;
       otherReady: boolean;
       otherAcknowledgeMeReady: boolean;
       roomSocket: SocketIOClient.Socket;
@@ -34,7 +35,8 @@ function newGameState(roomSocket: SocketIOClient.Socket): GameState {
     roomSocket,
     myPwd: "",
     otherReady: false,
-    otherAcknowledgeMeReady: false
+    otherAcknowledgeMeReady: false,
+    meReady: false
   };
 }
 
@@ -47,6 +49,11 @@ export const mutations: MutationTree<State> = {
   registerMyPwd(state, myPwd) {
     if (state.gameState.type === "LOADING") {
       state.gameState.myPwd = myPwd;
+    }
+  },
+  setMeReady(state) {
+    if (state.gameState.type === "LOADING") {
+      state.gameState.meReady = true;
     }
   },
   setOtherReady(state) {
@@ -92,25 +99,52 @@ export const mutations: MutationTree<State> = {
 export const actions: ActionTree<State, RootState> = {
   loadGame(ctx, roomSocket: SocketIOClient.Socket) {
     roomSocket.on("ready", (data: any) => {
-      // eslint-disable-next-line
-      console.log(data);
-      ctx.commit("setOtherReady", true);
+      ctx.commit("setOtherReady");
       ctx.commit("updateSecondaryPlayer", data.sender, { root: true });
+      roomSocket.emit("readyAcknowledged", {
+        sender: ctx.rootState.mainPlayer
+      });
+      if (
+        ctx.state.gameState.type === "LOADING" &&
+        !ctx.state.gameState.otherAcknowledgeMeReady &&
+        ctx.state.gameState.meReady
+      ) {
+        ctx.dispatch("sendReady");
+      }
+      if (
+        ctx.state.gameState.type === "LOADING" &&
+        ctx.state.gameState.otherAcknowledgeMeReady &&
+        ctx.state.gameState.meReady
+      ) {
+        ctx.commit("startGame");
+      }
+    });
+    roomSocket.on("readyAcknowledged", (data: any) => {
+      // eslint-disable-next-line
+      ctx.commit("setOtherAcknowledgedMeReady");
+      if (
+        ctx.state.gameState.type === "LOADING" &&
+        ctx.state.gameState.otherAcknowledgeMeReady &&
+        ctx.state.gameState.otherReady
+      ) {
+        ctx.commit("startGame");
+      }
     });
     ctx.commit("loadGame", roomSocket);
   },
   sendReady(context) {
     if (context.state.gameState.type === "LOADING") {
+      context.commit("setMeReady");
       context.state.gameState.roomSocket.emit("ready", {
         sender: context.rootState.mainPlayer
       });
     }
   },
-  sendAttempt(context, attempt: Attempt) {
+  sendGuess(context, guess: string) {
     if (context.state.gameState.type === "RUNNING") {
       context.state.gameState.roomSocket.emit("attempt", {
         sender: context.rootState.mainPlayer,
-        attempt
+        guess
       });
     }
   }
