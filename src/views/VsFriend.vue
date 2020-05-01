@@ -64,7 +64,7 @@ export default class VsFriend extends Vue {
   updateSecondaryPlayer!: (name: string) => void;
 
   createRoom() {
-    fetch("http://localhost:4000/room", {
+    fetch("https://mastermind-backend-nodejs.herokuapp.com/room", {
       method: "POST",
       body: JSON.stringify({ name: this.mainPlayer }),
       headers: {
@@ -73,23 +73,30 @@ export default class VsFriend extends Vue {
     })
       .then(res => res.json())
       .then(res => {
-        this.socket = io.connect("http://localhost:4000/" + res.number);
+        this.socket = io.connect(
+          "https://mastermind-backend-nodejs.herokuapp.com/" + res.number
+        );
         this.loadGame(this.socket);
         this.$router.push("/vs-friend/" + res.number);
       });
   }
 
   joinRoom() {
-    fetch("http://localhost:4000/room/" + this.roomNumber, {
-      method: "POST",
-      body: JSON.stringify({ name: this.mainPlayer }),
-      headers: {
-        "Content-Type": "application/json"
+    fetch(
+      "https://mastermind-backend-nodejs.herokuapp.com/room/" + this.roomNumber,
+      {
+        method: "POST",
+        body: JSON.stringify({ name: this.mainPlayer }),
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    })
+    )
       .then(res => res.json())
       .then(res => {
-        this.socket = io.connect("http://localhost:4000/" + res.number);
+        this.socket = io.connect(
+          "https://mastermind-backend-nodejs.herokuapp.com/" + res.number
+        );
         this.loadGame(this.socket);
         this.updateSecondaryPlayer(res.user_1);
         this.$router.push("/vs-friend/" + res.number);
