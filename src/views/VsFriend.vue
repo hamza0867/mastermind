@@ -22,7 +22,7 @@
           <v-text-field
             label="Room Number"
             outlined
-            class="mx-auto"
+            class="mx-auto text-center"
             :append-icon="roomNumber.length > 0 ? 'mdi-check-outline' : null"
             v-model="roomNumber"
             v-mask="'##?#?#?#?#?'"
@@ -101,3 +101,13 @@ export default class VsFriend extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.center-text >>> input {
+  text-align: center;
+}
+
+.text-center >>> input {
+  text-align: center;
+}
+</style>

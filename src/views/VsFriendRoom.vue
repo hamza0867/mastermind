@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column pa-4">
+  <div class="d-flex flex-column pa-4 root-vs-friend-room">
     <v-layout column>
       <v-layout row justify-center class="px-4 mb-md-2">
         <v-flex md2 xs12>
@@ -29,18 +29,8 @@
       </v-layout>
       <v-layout v-if="showReady" row justify-center class="px-4 mb-md-2">
         <v-flex md2 xs12>
-          <v-btn
-            outlined
-            height="48px"
-            color="primary"
-            width="100%"
-            @click="ready"
-          >
-            <v-progress-circular
-              v-if="waitingOtherPlayer"
-              color="primary"
-              indeterminate
-            />
+          <v-btn outlined height="48px" color="primary" width="100%" @click="ready">
+            <v-progress-circular v-if="waitingOtherPlayer" color="primary" indeterminate />
             <span v-else>Ready</span>
           </v-btn>
         </v-flex>
@@ -67,7 +57,7 @@
               shrink
               row
             >
-              <v-flex xs10 sm6>
+              <v-flex xs12>
                 <v-text-field outlined :value="attempt.guess" readonly>
                   <template v-slot:append>
                     {{ attempt.result.up }} /
@@ -99,7 +89,7 @@
               shrink
               row
             >
-              <v-flex xs10 sm6>
+              <v-flex xs12>
                 <v-text-field outlined :value="attempt.guess" readonly>
                   <template v-slot:append>
                     {{ attempt.result.up }} /
@@ -113,16 +103,60 @@
       </v-layout>
       <v-layout v-if="gameRunning && isSm" justify-space-around row>
         <v-flex xs12>
-          <v-carousel>
-            <v-carousel-item>{{ mainPlayer }}</v-carousel-item>
-            <v-carousel-item>{{ secondaryPlayer }}</v-carousel-item>
-          </v-carousel>
+          <v-tabs class="px-4" grow>
+            <v-tab>{{ mainPlayer }}</v-tab>
+            <v-tab>{{ secondaryPlayer }}</v-tab>
+            <v-tab-item>
+              <v-layout column>
+                <v-layout
+                  v-for="(attempt, index) in myAttempts"
+                  :key="index"
+                  justify-center
+                  wrap
+                  shrink
+                  row
+                  class="px-4 mt-4"
+                >
+                  <v-flex xs12>
+                    <v-text-field outlined :value="attempt.guess" readonly>
+                      <template v-slot:append>
+                        {{ attempt.result.up }} /
+                        {{ attempt.result.down }}
+                      </template>
+                    </v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-layout>
+            </v-tab-item>
+            <v-tab-item>
+              <v-layout column>
+                <v-layout
+                  v-for="(attempt, index) in otherAttempts"
+                  :key="index"
+                  justify-center
+                  wrap
+                  shrink
+                  row
+                  class="px-4 mt-4"
+                >
+                  <v-flex xs12>
+                    <v-text-field outlined :value="attempt.guess" readonly>
+                      <template v-slot:append>
+                        {{ attempt.result.up }} /
+                        {{ attempt.result.down }}
+                      </template>
+                    </v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-layout>
+            </v-tab-item>
+          </v-tabs>
         </v-flex>
       </v-layout>
       <v-layout v-if="gameRunning" column>
-        <v-layout row justify-space-around>
+        <v-layout row justify-space-around class="px-4 px-md-0 mt-4 mt-md-0">
           <v-flex xs12 md5>
-            <v-layout row>
+            <v-layout row class="mx-0 mx-md-n4">
               <v-flex xs12>
                 <v-text-field
                   v-if="!over"
@@ -136,12 +170,13 @@
                   v-model="nextGuess"
                   v-mask="'#####'"
                   :rules="passwordRules"
-                  @click:append="sendGuess(nextGuess)"
+                  @click:append="handleNextGuess"
+                  id="nextGuessInputElement"
                 />
               </v-flex>
             </v-layout>
           </v-flex>
-          <v-flex xs12 md5>
+          <v-flex xs0 md5>
             <v-layout row>
               <v-flex xs12 />
             </v-layout>
@@ -185,6 +220,7 @@ export default class VsFriendRoom extends Vue {
   mainPlayer!: string;
   secondaryPlayer!: string;
   nextGuess = "";
+  sendGuess!: (guess: string) => void;
 
   get over() {
     return this.gameState.type === "RUNNING" && this.gameState.over;
@@ -239,10 +275,32 @@ export default class VsFriendRoom extends Vue {
     this.waitingOtherPlayer = true;
     this.sendReady();
   }
+
+  handleNextGuess() {
+    this.sendGuess(this.nextGuess);
+    this.nextGuess = "";
+  }
+
+  updated() {
+    const el = document.getElementById("nextGuessInputElement");
+    // eslint-disable-next-line
+    console.log(el);
+    if (el) {
+      this.$nextTick(() => {
+        el.scrollIntoView({
+          behavior: "smooth"
+        });
+      });
+    }
+  }
 }
 </script>
 
 <style scoped>
+.root-vs-friend-room {
+  scroll-behavior: smooth;
+}
+
 .center-text >>> input {
   text-align: center;
 }

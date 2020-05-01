@@ -1,4 +1,4 @@
-import { Attempt } from "@/models/shared";
+import { Attempt, computeResult } from "@/models/shared";
 import { MutationTree, ActionTree, Module } from "vuex";
 import { RootState } from "@/store";
 import io from "socket.io-client";
@@ -130,6 +130,26 @@ export const actions: ActionTree<State, RootState> = {
         ctx.commit("startGame");
       }
     });
+    roomSocket.on("guess", (data: any) => {
+      if (ctx.state.gameState.type === "RUNNING") {
+        const guess = data.guess;
+        const result = computeResult(ctx.state.gameState.myPwd, data.guess);
+        const attempt: Attempt = {
+          guess,
+          result
+        };
+        ctx.commit("otherNextAttempt", attempt);
+        roomSocket.emit("attemptResult", {
+          sender: ctx.rootState.mainPlayer,
+          attempt
+        });
+      }
+    });
+    roomSocket.on("attemptResult", (data: any) => {
+      if (ctx.state.gameState.type === "RUNNING") {
+        ctx.commit("myNextAttempt", data.attempt);
+      }
+    });
     ctx.commit("loadGame", roomSocket);
   },
   sendReady(context) {
@@ -142,7 +162,7 @@ export const actions: ActionTree<State, RootState> = {
   },
   sendGuess(context, guess: string) {
     if (context.state.gameState.type === "RUNNING") {
-      context.state.gameState.roomSocket.emit("attempt", {
+      context.state.gameState.roomSocket.emit("guess", {
         sender: context.rootState.mainPlayer,
         guess
       });

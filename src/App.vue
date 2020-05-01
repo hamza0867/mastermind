@@ -23,7 +23,7 @@
 
     <v-app-bar app color="indigo" dark clipped-left>
       <!--<v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>-->
-      <v-toolbar-title>Mastermind</v-toolbar-title>
+      <v-toolbar-title @click="$router.push('/')">Mastermind</v-toolbar-title>
       <v-spacer />
       <v-btn data-test="toggleLighButton" icon @click="toggleLight()">
         <v-icon>{{ lightIcon }}</v-icon>
