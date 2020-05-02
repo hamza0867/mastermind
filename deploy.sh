@@ -4,7 +4,7 @@
 set -e
 
 # build
-npm run build
+API_URL=https://mastermind-backend-nodejs.herokuapp.com yarn build
 
 # navigate into the build output directory
 cd dist
@@ -13,7 +13,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-# if you are deploying to https://<USERNAME>.github.io/<REPO>
- git push -f git@github.com:hamza0867/mastermind.git master:gh-pages
+git push -f git@github.com:hamza0867/mastermind.git master:gh-pages
 
 cd -

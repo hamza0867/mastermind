@@ -41,6 +41,7 @@ import io from "socket.io-client";
 const vMask = require("v-mask");
 const { VueMaskDirective } = vMask;
 import { mapState, mapActions, mapMutations } from "vuex";
+import { API_URL, API } from "../api";
 
 @Component({
   computed: {
@@ -64,7 +65,7 @@ export default class VsFriend extends Vue {
   updateSecondaryPlayer!: (name: string) => void;
 
   createRoom() {
-    fetch("https://mastermind-backend-nodejs.herokuapp.com/room", {
+    fetch(API_URL + "/room", {
       method: "POST",
       body: JSON.stringify({ name: this.mainPlayer }),
       headers: {
@@ -73,30 +74,23 @@ export default class VsFriend extends Vue {
     })
       .then(res => res.json())
       .then(res => {
-        this.socket = io.connect(
-          "https://mastermind-backend-nodejs.herokuapp.com/" + res.number
-        );
+        this.socket = io.connect(API_URL + "/" + res.number);
         this.loadGame(this.socket);
         this.$router.push("/vs-friend/" + res.number);
       });
   }
 
   joinRoom() {
-    fetch(
-      "https://mastermind-backend-nodejs.herokuapp.com/room/" + this.roomNumber,
-      {
-        method: "POST",
-        body: JSON.stringify({ name: this.mainPlayer }),
-        headers: {
-          "Content-Type": "application/json"
-        }
+    fetch(API_URL + "/room/" + this.roomNumber, {
+      method: "POST",
+      body: JSON.stringify({ name: this.mainPlayer }),
+      headers: {
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(res => res.json())
       .then(res => {
-        this.socket = io.connect(
-          "https://mastermind-backend-nodejs.herokuapp.com/" + res.number
-        );
+        this.socket = io.connect(API_URL + "/" + res.number);
         this.loadGame(this.socket);
         this.updateSecondaryPlayer(res.user_1);
         this.$router.push("/vs-friend/" + res.number);

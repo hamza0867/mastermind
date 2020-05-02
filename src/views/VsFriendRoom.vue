@@ -1,5 +1,15 @@
 <template>
   <div class="d-flex flex-column pa-4 root-vs-friend-room">
+    <v-fab-transition>
+      <v-tooltip top>
+        <span>Play a new game</span>
+        <template v-slot:activator="{ on }">
+          <v-btn v-show="over" fixed bottom right fab v-on="on" color="error" @click="restartGame">
+            <v-icon dark>mdi-reload</v-icon>
+          </v-btn>
+        </template>
+      </v-tooltip>
+    </v-fab-transition>
     <v-layout column>
       <v-layout row justify-center class="px-4 mb-md-2">
         <v-flex md2 xs12>
@@ -106,7 +116,7 @@
           <v-tabs class="px-4" grow>
             <v-tab>{{ mainPlayer }}</v-tab>
             <v-tab>{{ secondaryPlayer }}</v-tab>
-            <v-tab-item>
+            <v-tab-item class="attempts">
               <v-layout column>
                 <v-layout
                   v-for="(attempt, index) in myAttempts"
@@ -128,7 +138,7 @@
                 </v-layout>
               </v-layout>
             </v-tab-item>
-            <v-tab-item>
+            <v-tab-item class="attempts">
               <v-layout column>
                 <v-layout
                   v-for="(attempt, index) in otherAttempts"
@@ -199,7 +209,7 @@ const { VueMaskDirective } = vMask;
 @Component({
   methods: {
     ...mapMutations("vsFriend", ["registerMyPwd"]),
-    ...mapActions("vsFriend", ["sendReady", "sendGuess"])
+    ...mapActions("vsFriend", ["restartGame", "sendReady", "sendGuess"])
   },
   computed: {
     ...mapState("vsFriend", ["gameState"]),
@@ -221,6 +231,13 @@ export default class VsFriendRoom extends Vue {
   secondaryPlayer!: string;
   nextGuess = "";
   sendGuess!: (guess: string) => void;
+  restartGame!: () => void;
+
+  resetGame() {
+    this.waitingOtherPlayer = false;
+    this.pwdValidated = false;
+    this.myDirtyPwd = "";
+  }
 
   get over() {
     return this.gameState.type === "RUNNING" && this.gameState.over;
@@ -283,14 +300,29 @@ export default class VsFriendRoom extends Vue {
 
   updated() {
     const el = document.getElementById("nextGuessInputElement");
-    // eslint-disable-next-line
-    console.log(el);
     if (el) {
       this.$nextTick(() => {
         el.scrollIntoView({
           behavior: "smooth"
         });
       });
+    }
+  }
+
+  beforeUpdate() {
+    // eslint-disable-next-line
+    console.log(this.gameState.type);
+    if (this.gameState.type === "RESTARTING") {
+      // eslint-disable-next-line
+      console.log(
+        "waitingOtherPlayer",
+        this.waitingOtherPlayer,
+        "\npwdValidated",
+        this.pwdValidated,
+        "\nmyDirtyPwd",
+        this.myDirtyPwd
+      );
+      this.resetGame();
     }
   }
 }
@@ -307,5 +339,9 @@ export default class VsFriendRoom extends Vue {
 
 .text-center >>> input {
   text-align: center;
+}
+
+.attempts {
+  overflow-y: auto;
 }
 </style>

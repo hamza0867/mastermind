@@ -6,6 +6,9 @@ import io from "socket.io-client";
 type NOT_STARTED = "NOT_STARTED";
 const NOT_STARTED = "NOT_STARTED";
 
+type RESTARTING = "RESTARTING";
+const RESTARTING = "RESTARTING";
+
 export type GameState =
   | {
       type: "RUNNING";
@@ -16,6 +19,10 @@ export type GameState =
       roomSocket: SocketIOClient.Socket;
     }
   | { type: NOT_STARTED }
+  | {
+      type: RESTARTING;
+      roomSocket: SocketIOClient.Socket;
+    }
   | {
       type: "LOADING";
       myPwd: string;
@@ -43,6 +50,19 @@ function newGameState(roomSocket: SocketIOClient.Socket): GameState {
 const state: State = { gameState: { type: "NOT_STARTED" } };
 
 export const mutations: MutationTree<State> = {
+  restartingGame(state) {
+    if (state.gameState.type === "RUNNING" && state.gameState.over) {
+      state.gameState = {
+        type: "RESTARTING",
+        roomSocket: state.gameState.roomSocket
+      };
+    }
+  },
+  restartGame(state) {
+    if (state.gameState.type === "RESTARTING") {
+      state.gameState = newGameState(state.gameState.roomSocket);
+    }
+  },
   loadGame(state, roomSocket: SocketIOClient.Socket) {
     state.gameState = newGameState(roomSocket);
   },
@@ -97,7 +117,26 @@ export const mutations: MutationTree<State> = {
 };
 
 export const actions: ActionTree<State, RootState> = {
+  restartGame(ctx) {
+    // eslint-disable-next-line
+    console.log("restart");
+    if (ctx.state.gameState.type === "RUNNING" && ctx.state.gameState.over) {
+      ctx.state.gameState.roomSocket.emit("restartGame", {
+        sender: ctx.rootState.mainPlayer
+      });
+      ctx.commit("restartingGame");
+      setTimeout(() => {
+        ctx.commit("restartGame");
+      }, 1);
+    }
+  },
   loadGame(ctx, roomSocket: SocketIOClient.Socket) {
+    roomSocket.on("restartGame", (_data: any) => {
+      if (ctx.state.gameState.type === "RUNNING" && ctx.state.gameState.over) {
+        ctx.dispatch("restartGame");
+      }
+    });
+
     roomSocket.on("ready", (data: any) => {
       ctx.commit("setOtherReady");
       ctx.commit("updateSecondaryPlayer", data.sender, { root: true });
