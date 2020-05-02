@@ -4,7 +4,7 @@
 set -e
 
 # build
-API_URL=https://mastermind-backend-nodejs.herokuapp.com yarn build
+VUE_APP_API_URL=https://mastermind-backend-nodejs.herokuapp.com yarn build
 
 # navigate into the build output directory
 cd dist
