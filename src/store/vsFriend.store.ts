@@ -118,8 +118,6 @@ export const mutations: MutationTree<State> = {
 
 export const actions: ActionTree<State, RootState> = {
   restartGame(ctx) {
-    // eslint-disable-next-line
-    console.log("restart");
     if (ctx.state.gameState.type === "RUNNING" && ctx.state.gameState.over) {
       ctx.state.gameState.roomSocket.emit("restartGame", {
         sender: ctx.rootState.mainPlayer

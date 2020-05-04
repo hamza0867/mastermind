@@ -4,7 +4,16 @@
       <v-tooltip top>
         <span>Play a new game</span>
         <template v-slot:activator="{ on }">
-          <v-btn v-show="over" fixed bottom right fab v-on="on" color="error" @click="restartGame">
+          <v-btn
+            v-show="over"
+            fixed
+            bottom
+            right
+            fab
+            v-on="on"
+            color="error"
+            @click="restartGame"
+          >
             <v-icon dark>mdi-reload</v-icon>
           </v-btn>
         </template>
@@ -25,6 +34,7 @@
       <v-layout row justify-center class="px-4 mb-md-2">
         <v-flex md2 xs12>
           <v-text-field
+            type="number"
             label="Your password"
             class="center-text"
             outlined
@@ -39,8 +49,18 @@
       </v-layout>
       <v-layout v-if="showReady" row justify-center class="px-4 mb-md-2">
         <v-flex md2 xs12>
-          <v-btn outlined height="48px" color="primary" width="100%" @click="ready">
-            <v-progress-circular v-if="waitingOtherPlayer" color="primary" indeterminate />
+          <v-btn
+            outlined
+            height="48px"
+            color="primary"
+            width="100%"
+            @click="ready"
+          >
+            <v-progress-circular
+              v-if="waitingOtherPlayer"
+              color="primary"
+              indeterminate
+            />
             <span v-else>Ready</span>
           </v-btn>
         </v-flex>
@@ -170,6 +190,7 @@
               <v-flex xs12>
                 <v-text-field
                   v-if="!over"
+                  type="number"
                   style="width: 100%"
                   class="text-center"
                   prepend-inner-icon="mdi-numeric"
@@ -248,11 +269,13 @@ export default class VsFriendRoom extends Vue {
   }
 
   get myAttempts() {
-    return this.gameState.type === "RUNNING" && this.gameState.myAttempts;
+    return this.gameState.type === "RUNNING" ? this.gameState.myAttempts : [];
   }
 
   get otherAttempts() {
-    return this.gameState.type === "RUNNING" && this.gameState.otherAttempts;
+    return this.gameState.type === "RUNNING"
+      ? this.gameState.otherAttempts
+      : [];
   }
 
   get validPwd() {
@@ -310,18 +333,7 @@ export default class VsFriendRoom extends Vue {
   }
 
   beforeUpdate() {
-    // eslint-disable-next-line
-    console.log(this.gameState.type);
     if (this.gameState.type === "RESTARTING") {
-      // eslint-disable-next-line
-      console.log(
-        "waitingOtherPlayer",
-        this.waitingOtherPlayer,
-        "\npwdValidated",
-        this.pwdValidated,
-        "\nmyDirtyPwd",
-        this.myDirtyPwd
-      );
       this.resetGame();
     }
   }
