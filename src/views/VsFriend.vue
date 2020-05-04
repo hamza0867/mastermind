@@ -32,6 +32,11 @@
         </v-flex>
       </v-layout>
     </v-expand-transition>
+    <v-snackbar :timeout="2000" v-model="snackbarError" color="error" top>
+      <div class="text-center" style="width: 100%">
+        {{ snackbarMessage }}
+      </div>
+    </v-snackbar>
   </div>
 </template>
 
@@ -64,42 +69,46 @@ export default class VsFriend extends Vue {
   sendReady!: (myPwd: string) => void;
   loadGame!: (socket: SocketIOClient.Socket) => void;
   updateSecondaryPlayer!: (name: string) => void;
+  snackbarError = false;
+  snackbarMessage = "";
 
   createRoom() {
-    fetch(API_URL + "/room", {
-      method: "POST",
-      body: JSON.stringify({ name: this.mainPlayer }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
+    API.post("/room", { name: this.mainPlayer })
+      .then((res: any) => {
         this.socket = io.connect(API_URL + "/" + res.number);
         this.loadGame(this.socket);
         this.$router.push("/vs-friend/" + res.number);
+      })
+      // eslint-disable-next-line no-console
+      .catch(err => {
+        this.snackbarError = true;
+        this.snackbarMessage = err.response.data;
       });
   }
 
   joinRoom() {
-    fetch(API_URL + "/room/" + this.roomNumber, {
-      method: "POST",
-      body: JSON.stringify({ name: this.mainPlayer }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
+    API.post("/room/" + this.roomNumber, { name: this.mainPlayer })
+      .then((res: any) => {
         this.socket = io.connect(API_URL + "/" + res.number);
         this.loadGame(this.socket);
         this.updateSecondaryPlayer(res.user_1);
         this.$router.push("/vs-friend/" + res.number);
+      })
+      // eslint-disable-next-line no-console
+      .catch(err => {
+        this.snackbarError = true;
+        this.snackbarMessage = err.response.data;
       });
   }
 
   toggleJoiningRoom() {
     this.joiningRoom = !this.joiningRoom;
+  }
+
+  beforeMount() {
+    if (!this.mainPlayer) {
+      this.$router.push("/");
+    }
   }
 }
 </script>

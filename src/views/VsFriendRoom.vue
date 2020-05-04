@@ -337,6 +337,12 @@ export default class VsFriendRoom extends Vue {
       this.resetGame();
     }
   }
+
+  beforeMount() {
+    if (this.gameState.type === "NOT_STARTED") {
+      this.$router.push("/vs-friend");
+    }
+  }
 }
 </script>
 
