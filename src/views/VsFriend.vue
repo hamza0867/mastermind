@@ -21,6 +21,7 @@
         <v-flex md4 xs12>
           <v-text-field
             label="Room Number"
+            type="number"
             outlined
             class="mx-auto text-center"
             :append-icon="roomNumber.length > 0 ? 'mdi-check-outline' : null"
