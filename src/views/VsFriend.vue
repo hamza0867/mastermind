@@ -74,10 +74,12 @@ export default class VsFriend extends Vue {
 
   createRoom() {
     API.post("/room", { name: this.mainPlayer })
-      .then((res: any) => {
-        this.socket = io.connect(API_URL + "/" + res.number);
+      .then(res => {
+        // eslint-disable-next-line no-console
+        console.log(res.data.number);
+        this.socket = io.connect(API_URL + "/" + res.data.number);
         this.loadGame(this.socket);
-        this.$router.push("/vs-friend/" + res.number);
+        this.$router.push("/vs-friend/" + res.data.number);
       })
       // eslint-disable-next-line no-console
       .catch(err => {
@@ -88,11 +90,11 @@ export default class VsFriend extends Vue {
 
   joinRoom() {
     API.post("/room/" + this.roomNumber, { name: this.mainPlayer })
-      .then((res: any) => {
-        this.socket = io.connect(API_URL + "/" + res.number);
+      .then(res => {
+        this.socket = io.connect(API_URL + "/" + res.data.number);
         this.loadGame(this.socket);
-        this.updateSecondaryPlayer(res.user_1);
-        this.$router.push("/vs-friend/" + res.number);
+        this.updateSecondaryPlayer(res.data.user_1);
+        this.$router.push("/vs-friend/" + res.data.number);
       })
       // eslint-disable-next-line no-console
       .catch(err => {
