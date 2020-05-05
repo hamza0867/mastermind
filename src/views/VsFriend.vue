@@ -75,13 +75,10 @@ export default class VsFriend extends Vue {
   createRoom() {
     API.post("/room", { name: this.mainPlayer })
       .then(res => {
-        // eslint-disable-next-line no-console
-        console.log(res.data.number);
         this.socket = io.connect(API_URL + "/" + res.data.number);
         this.loadGame(this.socket);
         this.$router.push("/vs-friend/" + res.data.number);
       })
-      // eslint-disable-next-line no-console
       .catch(err => {
         this.snackbarError = true;
         this.snackbarMessage = err.response.data;
@@ -96,7 +93,6 @@ export default class VsFriend extends Vue {
         this.updateSecondaryPlayer(res.data.user_1);
         this.$router.push("/vs-friend/" + res.data.number);
       })
-      // eslint-disable-next-line no-console
       .catch(err => {
         this.snackbarError = true;
         this.snackbarMessage = err.response.data;
@@ -122,5 +118,29 @@ export default class VsFriend extends Vue {
 
 .text-center >>> input {
   text-align: center;
+}
+
+.center-text >>> input::-webkit-outer-spin-button,
+.center-text >>> input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.text-center >>> input::-webkit-outer-spin-button,
+.text-center >>> input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.attempts {
+  overflow-y: auto;
+}
+
+.center-text >>> [type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.text-center >>> [type="number"] {
+  -moz-appearance: textfield; /* Firefox */
 }
 </style>

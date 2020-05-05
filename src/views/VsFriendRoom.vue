@@ -359,7 +359,27 @@ export default class VsFriendRoom extends Vue {
   text-align: center;
 }
 
+.center-text >>> input::-webkit-outer-spin-button,
+.center-text >>> input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.text-center >>> input::-webkit-outer-spin-button,
+.text-center >>> input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .attempts {
   overflow-y: auto;
+}
+
+.center-text >>> [type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.text-center >>> [type="number"] {
+  -moz-appearance: textfield; /* Firefox */
 }
 </style>
