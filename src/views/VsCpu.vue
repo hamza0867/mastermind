@@ -75,6 +75,8 @@
             autofocus
             validate-on-blur
             @click:append="checkGuess"
+            type="number"
+            class="input-number"
           />
         </v-flex>
       </v-layout>
@@ -132,3 +134,15 @@ export default class VsCpu extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.input-number >>> input::-webkit-outer-spin-button,
+.input-number >>> input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-number >>> [type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+</style>
