@@ -13,23 +13,25 @@
               />
             </v-flex>
           </v-layout>
-          <v-layout row justify-space-between align-center style="width: 100%">
-            <v-flex xs12 sm2 class="mx-auto justify-space-between d-flex">
-              <v-btn
-                outlined
-                color="primary"
-                :disabled="!valid"
-                @click.prevent="playVsCPU"
-                data-test="playButton"
-                >Play vs CPU</v-btn
-              >
-              <v-btn
-                outlined
-                color="primary"
-                :disabled="!valid"
-                @click.prevent="playVsFriend"
-                >Play vs Friend</v-btn
-              >
+          <v-layout row justify-center align-center style="width: 100%">
+            <v-flex xs12 md4>
+              <v-layout row justify-space-between align-center class="mx-0">
+                <v-btn
+                  outlined
+                  color="primary"
+                  :disabled="!valid"
+                  @click.prevent="playVsCPU"
+                  data-test="playButton"
+                  >Play vs CPU</v-btn
+                >
+                <v-btn
+                  outlined
+                  color="primary"
+                  :disabled="!valid"
+                  @click.prevent="playVsFriend"
+                  >Play vs Friend</v-btn
+                >
+              </v-layout>
             </v-flex>
           </v-layout>
         </v-layout>
